@@ -164,8 +164,8 @@ footer{background:var(--navy);padding:16px;text-align:center;font-size:17px;colo
     <rect x="190" y="256" width="16" height="96" fill="#222a49"/><rect x="464" y="256" width="16" height="96" fill="#222a49"/>
     <g transform="rotate(-8 460 222)"><rect x="410" y="216" width="82" height="12" rx="3" fill="#3a4466"/><path d="M492,216 l16,6 l-16,6z" fill="#4a5478"/></g>
     <g id="hands"></g>
-    <text x="250" y="249" font-size="17" fill="#55628d" text-anchor="middle">왼손</text>
-    <text x="356" y="249" font-size="17" fill="#55628d" text-anchor="middle">오른손</text>
+    <text x="250" y="249" font-size="17" fill="#55628d" text-anchor="middle">내 손</text>
+    <text x="356" y="249" font-size="17" fill="#55628d" text-anchor="middle">짝의 손</text>
     <!-- 빛 -->
     <circle id="beamV" cx="-200" cy="-200" r="80" fill="#8f6bff" opacity=".22" pointer-events="none"/>
     <g id="dots" mask="url(#lamp)" pointer-events="none"></g>
@@ -173,17 +173,17 @@ footer{background:var(--navy);padding:16px;text-align:center;font-size:17px;colo
   </svg>
   <div class="chips" id="chips"></div>
   <div class="row wash" id="wash">
-    <button class="bbtn" id="wL">왼손 · 물로만 5초</button>
-    <button class="bbtn orange" id="wR">오른손 · 비누로 30초</button>
+    <button class="bbtn" id="wL">내 손 · 물로만 30초</button>
+    <button class="bbtn orange" id="wR">짝의 손 · 비누로 30초</button>
   </div>
-  <div class="meter" id="cnt" style="display:none">빛나는 점 &nbsp;왼손 <div class="scr" id="nL">-</div> 오른손 <div class="scr" id="nR">-</div></div>
+  <div class="meter" id="cnt" style="display:none">빛나는 점 &nbsp;물로만 30초 씻은 손 <div class="scr" id="nL">-</div> 비누로 30초 씻은 손 <div class="scr" id="nR">-</div></div>
   <div class="row"><button class="bbtn white" id="reset1">다시 하기</button></div>
-  <div class="card" id="c0">손은 병원체를 옮겨요! 비누로 30초 씻은 손은 물로만 헹군 손보다 빛나는 곳이 적어요. 비누 손 씻기가 접촉 감염을 막아요.</div>
+  <div class="card" id="c0">손은 병원체를 옮겨요! 비누로 30초 씻은 손은 물로만 30초 씻은 손보다 빛나는 곳이 적어요. 비누 손 씻기가 접촉 감염을 막아요.</div>
 </section>
 
 <!-- 2 기침 침방울 거리 -->
 <section class="panel">
-  <div class="msg" id="m1">스탠드 거리를 고르고 '기침 한 번!'을 눌러 보세요. 물이 닿으면 색이 변하는 종이에 동그라미가 몇 개 생길까요?</div>
+  <div class="msg" id="m1">스탠드 거리를 고르고 '기침 한 번!'을 눌러 보세요. 물에 닿으면 색이 변하는 종이에 동그라미가 몇 개 생길까요?</div>
   <div class="range">스탠드 거리 <input type="range" id="dist" min="1" max="5" step="1" value="1" aria-label="스탠드 거리"><b id="dv">1m</b></div>
   <svg class="stage" id="cough" viewBox="0 0 640 300" role="img" aria-label="기침한 침방울이 스탠드의 종이까지 날아가는 옆모습">
     <rect width="640" height="300" fill="#fbfcfe"/>
@@ -216,7 +216,7 @@ footer{background:var(--navy);padding:16px;text-align:center;font-size:17px;colo
     <div class="bin" data-b="3">비말 감염<small>기침 · 재채기 침방울</small><div class="got"></div></div>
   </div>
   <div class="row"><button class="bbtn white" id="reset3">다시 하기</button></div>
-  <div class="card" id="c2">병원체는 손 · 공기 · 물 · 침 · 침방울로 들어와요!</div>
+  <div class="card" id="c2">병원체는 손 · 공기 · 물 · 침 · 침방울로 들어와요!<br>노로바이러스는 물, 손, 토한 것에서 튄 작은 방울로 모두 옮아, 한 감염병이 여러 길로 옮기도 해요.</div>
 </section>
 
 <!-- 4 습관 퀴즈 -->
@@ -308,8 +308,8 @@ function handPath(cx,s){
 }
 $('#hands').innerHTML=handPath(250,1)+handPath(356,-1);
 const SPOTS=[
-  {n:'왼손',x:250,y:170,rx:34,ry:50,k:40,hand:'L'},
-  {n:'오른손',x:356,y:170,rx:34,ry:50,k:40,hand:'R'},
+  {n:'내 손',x:250,y:170,rx:34,ry:50,k:40,hand:'L'},
+  {n:'짝의 손',x:356,y:170,rx:34,ry:50,k:40,hand:'R'},
   {n:'얼굴(코 · 입 둘레)',x:112,y:136,rx:26,ry:20,k:14},
   {n:'책상',x:300,y:238,rx:60,ry:5,k:12},
   {n:'연필',x:455,y:220,rx:38,ry:5,k:8},
@@ -344,9 +344,9 @@ function beam(e){
     const dx=(q.x-s.x)/(s.rx+40), dy=(q.y-s.y)/(s.ry+40);
     if(dx*dx+dy*dy<1){ found.add(i); tone(880,.12,.12,'triangle');
       const c=$(`.chip[data-i="${i}"]`); c.classList.add('on'); c.textContent=s.n+' ○';
-      $('#m0').textContent=`${s.n}에도 '바이러스'가 빛나요! (${found.size} / ${SPOTS.length})`;
+      $('#m0').textContent=`${s.n}에도 형광 파우더가 빛나요! (${found.size} / ${SPOTS.length})`;
       if(found.size===SPOTS.length){
-        $('#m0').textContent='하이파이브 한 번에 손 말고 얼굴, 책상, 연필, 문 손잡이까지 퍼졌어요! 이제 두 손을 씻어 볼까요?';
+        $('#m0').textContent='하이파이브 한 번에 손 말고 얼굴, 책상, 연필, 문 손잡이까지 퍼졌어요! 이제 짝과 나누어 손을 30초씩 씻어 볼까요? 내 손은 물로만, 짝의 손은 비누로!';
         $('#wash').classList.add('on');
       }
     }
@@ -359,15 +359,15 @@ function wash(h){
   const soap=h==='R', cx=soap?356:250, g=$('#bub'+h); g.innerHTML='';
   for(let i=0;i<14;i++) el('circle',{cx:cx+R(-30,30),cy:R(110,210),r:R(4,10),fill:soap?'#ffffff':'#7fb4ff',opacity:.8},g);
   g.classList.remove('go'); void g.getBBox(); g.classList.add('go');
-  noise(soap?1.3:.6,.25,soap?2500:900);
-  const cut=soap?.9:.45; // 물로만 : 약 절반 남음 · 비누 : 손끝 둘레만 조금 남음
+  noise(1.3,.25,soap?2500:900);
+  const cut=soap?.9:.4; // 물로만 30초 : 꽤 남음 · 비누로 30초 : 손끝 둘레만 조금 남음
   setTimeout(()=>{
     dots.filter(d=>d.hand===h&&d.keep<cut&&d.c.isConnected).forEach(d=>d.c.remove());
     const n=k=>dots.filter(d=>d.hand===k&&d.c.isConnected).length;
-    $('#m0').textContent=soap?'비누로 30초 씻었어요. UV 플래시로 오른손을 다시 비춰 보세요.':'물로만 5초 헹궜어요. UV 플래시로 왼손을 다시 비춰 보세요.';
+    $('#m0').textContent=soap?'짝의 손을 비누로 30초 씻었어요. UV 플래시로 다시 비춰 보세요.':'내 손을 물로만 30초 씻었어요. UV 플래시로 다시 비춰 보세요.';
     if(washed.L&&washed.R){
       $('#cnt').style.display=''; $('#nL').textContent=n('L'); $('#nR').textContent=n('R');
-      $('#m0').textContent=`두 손을 다시 비춰 비교해 보세요. 물로만 헹군 왼손 ${n('L')}개, 비누로 씻은 오른손 ${n('R')}개! 손톱 둘레와 손가락 사이도 비춰 보세요.`;
+      $('#m0').textContent=`두 손을 다시 비춰 비교해 보세요. 물로만 30초 씻은 손 ${n('L')}개, 비누로 30초 씻은 손 ${n('R')}개! 손톱 둘레와 손가락 사이도 비춰 보세요.`;
       done(0,$('#cnt'));
     }
   },900);
@@ -449,8 +449,8 @@ function dragify(root,sel,slots,onDrop){
 }
 
 /* ---------- 3 감염 경로 짝 맞추기 ---------- */
-const WAY=['공기 속에 떠다니는 병원체를 들이마셔 옮아요','병원체가 섞인 물을 마셔 옮아요','다른 사람의 침이 묻은 컵이나 숟가락을 함께 써서 옮아요','기침이나 재채기의 침방울로 잘 옮아요'];
-const DIS=[['결핵',[0]],['홍역',[0]],['수두',[0]],['콜레라',[1]],['장티푸스',[1]],['이질',[1]],['독감',[2,3]],['볼거리',[2]],['코로나19',[3]],['백일해',[3]]];
+const WAY=['공기 속 병원체를 들이마셔 옮아요','병원체가 섞인 물을 마셔 옮아요','남의 침이 묻은 컵 · 숟가락을 함께 써서 옮아요','기침이나 재채기의 침방울로 잘 옮아요'];
+const DIS=[['결핵',[0]],['홍역',[0]],['콜레라',[1]],['장티푸스',[1]],['볼거리',[2]],['독감',[3]],['코로나19',[3]]];
 const pool=$('#pool'), bins=$$('.bin');
 const eun=n=>{ const c=n.charCodeAt(n.length-1)-0xAC00; return n+(c>=0&&c<11172&&c%28?'은':'는'); };
 function reset3(){
@@ -463,7 +463,7 @@ dragify(panels[2],'.scard:not(.set)',()=>bins,(c,s)=>{
   const [n,ok]=DIS[+c.dataset.i], b=+s.dataset.b;
   if(!ok.includes(b)){ boo(); c.classList.add('back'); setTimeout(()=>c.classList.remove('back'),400); $('#m2').textContent=`${eun(n)} ${WAY[ok[0]]}. 다시 생각해 보세요.`; return; }
   s.querySelector('.got').appendChild(c); c.classList.add('set'); tone(520,.1,.12,'triangle');
-  $('#m2').textContent=n==='독감'?'맞아요! 독감은 침으로도, 기침 침방울로도 옮아요.':`맞아요! ${eun(n)} ${WAY[b]}.`;
+  $('#m2').textContent=`맞아요! ${eun(n)} ${WAY[b]}.`;
   if(!pool.children.length) done(2,s);
 });
 $('#reset3').onclick=reset3;
@@ -474,12 +474,12 @@ const PATH=[['손','접촉 감염'],['침방울','비말 감염'],['공기','공
 $('#opts').innerHTML=PATH.map(([a,b],i)=>`<button data-a="${i}">${a}<small>${b}</small></button>`).join('');
 const QS=[
  ['비누로 30초 손 씻기',0,'비누 손 씻기는 손에 묻은 병원체를 씻어 내 접촉 감염을 막아요.'],
- ['기침이 나올 때 옷소매로 입과 코 가리기',1,'옷소매가 침방울이 친구에게 튀지 않게 막아요.'],
- ['창문을 열어 환기하기',2,'결핵 · 홍역 · 수두처럼 공기로 옮는 병원체를 밖으로 내보내요.'],
- ['사람 사이를 2m쯤 띄우는 거리 두기',1,'침방울은 무거워서 대부분 가까이에 떨어지니, 2m쯤 떨어지면 덜 닿아요.'],
- ['끓인 물 마시기',3,'콜레라 · 장티푸스 · 이질처럼 병원체가 섞인 물을 마셔 옮는 길을 막아요.'],
- ['내 컵과 내 숟가락 쓰기',4,'다른 사람의 침이 묻은 컵이나 숟가락을 함께 쓰지 않으면 침 감염을 막아요.'],
- ['마스크 쓰기',1,'마스크는 침방울이 다른 사람의 코와 입에 닿지 않게 막아요.']
+ ['기침이 나올 때 옷소매로 입과 코 가리기',1,'옷소매로 입과 코를 가리면 침방울이 앞으로 멀리 튀지 않아요.'],
+ ['창문을 열어 환기하기',2,'결핵 · 홍역처럼 공기 속 병원체를 들이마셔 옮는 공기 감염이 줄어요.'],
+ ['사람 사이를 2m쯤 띄우는 거리 두기',1,'2m쯤 띄우는 거리 두기는 침방울이 다른 사람의 코와 입에 닿는 것을 크게 줄여요.'],
+ ['끓인 물 마시기',3,'콜레라 · 장티푸스처럼 병원체가 섞인 물을 마셔 옮는 물 감염을 막아요.'],
+ ['내 컵과 내 숟가락 쓰기',4,'볼거리처럼 남의 침이 묻은 컵 · 숟가락을 함께 써서 옮는 침 감염을 막아요.'],
+ ['마스크 쓰기',1,'마스크 쓰기는 침방울이 다른 사람의 코와 입에 닿는 것을 크게 줄여요.']
 ];
 let qi=0, score=0;
 const ob=()=>$$('#opts button');
