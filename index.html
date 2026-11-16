@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>감염병은 어떻게 옮고, 어떤 습관이 막아 줄까? | 어게인 실험과학 수학학원</title>
+<meta name="description" content="손으로 만지며 알아보는 감염 과정과 생활 습관 — UV 플래시로 비춰 보기, 기침 침방울 거리, 감염 경로 짝 맞추기, 습관 퀴즈">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#14305c; --navy-d:#0b1f40; --line:#dfe6ee; --pale:#f3f6fa;
+  --lime:#8cc63f; --lime-d:#5c8f1f; --lime-s:#eef8e1;
+  --orange:#ff8a2a; --orange-d:#d2660c; --orange-s:#fff0e0;
+  --red:#e8344a; --ink:#22344f; --sub:#64748a; --glow:#7dfbff;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-weight:500;background:#fff}
+body{min-height:100vh;display:flex;flex-direction:column;-webkit-user-select:none;user-select:none;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;touch-action:manipulation}
+header,nav,.bbtn,.msg,.card,.quiz,footer,.scard,.bin,.meter,.tool,.tbl,.chips,.range,svg text{font-family:"Jua",sans-serif}
+
+.bbtn{font-size:22px;min-height:64px;min-width:140px;padding:10px 26px;color:#fff;background:var(--navy);border-radius:999px;
+  box-shadow:inset 0 -6px 0 rgba(0,0,0,.18),0 5px 0 var(--navy-d);word-break:keep-all}
+.bbtn:active{transform:translateY(3px)}
+.bbtn.orange{background:var(--orange);box-shadow:inset 0 -6px 0 rgba(0,0,0,.1),0 5px 0 var(--orange-d)}
+.bbtn.white{background:#fff;color:var(--navy);box-shadow:inset 0 -6px 0 rgba(0,0,0,.05),0 5px 0 var(--line);border:3px solid var(--line)}
+.bbtn:disabled{opacity:.45}
+
+header{position:sticky;top:0;z-index:30;background:#fff;box-shadow:0 3px 0 var(--line);padding:10px 16px}
+.head-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.titles{flex:1;min-width:0}
+h1{margin:0;font-weight:400;font-size:clamp(19px,3.4vw,30px);color:var(--navy);line-height:1.2;word-break:keep-all}
+.sub{font-size:clamp(16px,2.4vw,22px);color:var(--lime-d);line-height:1.25;word-break:keep-all}
+.share{min-width:0;font-size:18px;min-height:54px;padding:8px 22px;flex:none}
+
+nav{max-width:1100px;width:100%;margin:14px auto 0;padding:0 16px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tab{position:relative;min-height:66px;border-radius:20px;background:var(--pale);font-size:clamp(15px,2.1vw,20px);line-height:1.2;padding:6px;
+  border:3px solid transparent;word-break:keep-all;text-align:center;color:var(--navy)}
+.tab.on{background:var(--lime-s);border-color:var(--lime);color:var(--lime-d)}
+.tab .star{position:absolute;top:-12px;right:-2px;font-size:24px;color:var(--orange);display:none}
+.tab.done .star{display:block;animation:pop .5s}
+
+main{flex:1;max-width:1100px;width:100%;margin:0 auto;padding:16px}
+.panel{display:none}
+.panel.on{display:block;animation:fadein .3s}
+.msg{background:var(--pale);border-left:8px solid var(--lime);border-radius:20px;padding:12px 18px;font-size:clamp(18px,2.4vw,23px);line-height:1.45;word-break:keep-all;margin-bottom:12px;min-height:58px;color:var(--navy)}
+.row{display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.card{display:none;margin:16px auto 0;max-width:880px;border-radius:24px;background:var(--lime-s);border:4px solid var(--lime);padding:16px 20px;
+  font-size:clamp(20px,2.7vw,26px);text-align:center;line-height:1.5;color:#3d6a10;word-break:keep-all}
+.card.on{display:block;animation:pop .5s}
+.stage{display:block;width:100%;max-width:760px;margin:0 auto;border-radius:24px;background:#fbfcfe;box-shadow:0 0 0 3px var(--line);overflow:hidden}
+#room{touch-action:none;background:#141b33;cursor:crosshair;max-width:max(380px,min(760px,calc((100vh - 400px)*1.6)))}
+#cough{max-width:max(380px,min(760px,calc((100vh - 470px)*2.13)))}
+
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:760px;margin:12px auto 0}
+.chip{padding:6px 14px;border-radius:999px;background:var(--pale);color:var(--sub);font-size:clamp(16px,2.2vw,20px);border:3px solid var(--line)}
+.chip.on{background:#e3fdff;border-color:#3cc6d0;color:#0b6f78}
+.meter{max-width:760px;margin:12px auto 0;background:var(--navy);border-radius:22px;padding:8px 14px;color:#fff;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;font-size:clamp(18px,2.6vw,24px)}
+.meter .scr{background:#e3fdff;color:#0b4f56;border-radius:14px;padding:2px 14px;font-size:clamp(26px,4.6vw,38px);min-width:90px;text-align:center}
+.wash{display:none}
+.wash.on{display:flex}
+
+.range{max-width:760px;margin:0 auto 12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;font-size:clamp(19px,2.6vw,24px);color:var(--navy)}
+.range input{flex:1 1 140px;max-width:420px;height:44px;accent-color:var(--orange)}
+.range b{font-weight:400;color:var(--orange-d);font-size:1.25em;min-width:52px;display:inline-block;text-align:center}
+.two{display:grid;grid-template-columns:1fr 1.4fr;gap:12px;max-width:760px;margin:12px auto 0;align-items:center}
+#paper{width:100%;border-radius:18px;box-shadow:0 0 0 3px var(--line);background:#fbfcfe;display:block}
+.tbl{display:grid;grid-template-columns:1.6fr repeat(5,1fr);border-radius:18px;overflow:hidden;box-shadow:0 0 0 3px var(--line);font-size:clamp(15px,2.2vw,20px);text-align:center}
+.tbl div{padding:8px 2px;border-top:2px solid var(--line);word-break:keep-all;line-height:1.25}
+.tbl .h{background:var(--pale);color:var(--navy);border-top:0}
+.tbl .v{color:var(--sub)}
+.tbl .v.ok{color:var(--orange-d);background:var(--orange-s)}
+
+.pool{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:900px;margin:0 auto 14px;min-height:90px;padding:10px;border-radius:20px;background:var(--pale)}
+.scard{position:relative;z-index:2;flex:0 1 150px;min-height:70px;border-radius:18px;background:#fff;border:3px solid var(--orange);color:var(--navy);
+  font-size:clamp(18px,2.4vw,23px);line-height:1.2;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;word-break:keep-all;
+  box-shadow:0 4px 0 var(--orange-d);touch-action:none;cursor:grab}
+.scard.drag{z-index:50;cursor:grabbing;box-shadow:0 10px 18px rgba(0,0,0,.2)}
+.scard.back{animation:shake .4s}
+.scard.set{cursor:default;border-color:var(--lime);box-shadow:0 3px 0 var(--lime-d);flex:0 1 auto;min-height:48px;padding:6px 12px;font-size:clamp(16px,2.1vw,20px)}
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:900px;margin:0 auto}
+.bin{min-height:150px;border:4px dashed var(--navy);border-radius:22px;background:#fbfcfe;padding:10px;text-align:center;font-size:clamp(19px,2.7vw,26px);line-height:1.3;word-break:keep-all;color:var(--navy)}
+.bin small{display:block;font-size:.66em;color:var(--sub)}
+.bin.hot{background:var(--orange-s);border-color:var(--orange)}
+.bin .got{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px}
+
+.quiz{max-width:820px;margin:0 auto;text-align:center}
+.score{font-size:22px;color:var(--sub)}
+.score b{font-weight:400;color:var(--orange-d);font-size:1.3em}
+.q{background:var(--pale);border-radius:28px;padding:22px 18px;margin:12px 0;font-size:clamp(24px,3.6vw,34px);line-height:1.4;word-break:keep-all;min-height:130px;display:grid;place-items:center;color:var(--navy)}
+.q small{display:block;font-size:.6em;color:var(--sub)}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.opts button{min-height:72px;border-radius:20px;background:#fff;border:3px solid var(--line);font-size:clamp(18px,2.5vw,23px);line-height:1.2;color:var(--navy);box-shadow:0 4px 0 var(--line);padding:6px;word-break:keep-all}
+.opts button small{display:block;font-size:.72em;color:var(--sub)}
+.opts button.right{background:var(--lime-s);border-color:var(--lime)}
+.opts button.wrong{background:#ffe6e9;border-color:var(--red)}
+.opts button:disabled{cursor:default}
+.fb{min-height:70px;margin-top:16px;font-size:clamp(20px,2.8vw,26px);line-height:1.4;word-break:keep-all}
+.fb.good{color:#3d7a12}.fb.bad{color:#c8283a}
+.sum{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;text-align:left;max-width:560px;margin:10px auto;font-size:clamp(18px,2.4vw,22px);color:var(--navy)}
+.sum b{font-weight:400;color:var(--orange-d)}
+
+footer{background:var(--navy);padding:16px;text-align:center;font-size:17px;color:#fff;line-height:1.6}
+.toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);background:var(--ink);color:#fff;font-family:"Jua",sans-serif;font-size:20px;padding:12px 26px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:99;white-space:nowrap}
+.toast.on{opacity:1}
+.conf{position:fixed;top:-20px;width:14px;height:14px;z-index:98;pointer-events:none;animation:fall linear forwards}
+.spark{position:fixed;z-index:98;pointer-events:none;font-size:26px;color:#ffc400;animation:spark .8s ease-out forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+@keyframes spark{from{transform:translate(0,0) scale(.4);opacity:1}to{transform:translate(var(--dx),var(--dy)) scale(1.2);opacity:0}}
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes bub{0%{opacity:0}20%{opacity:.9}80%{opacity:.9}100%{opacity:0}}
+.bubbles{opacity:0;pointer-events:none}
+.bubbles.go{animation:bub 1.4s}
+@media (max-width:700px){
+  .bbtn{font-size:19px;min-width:0;padding:10px 18px}
+  .share{font-size:16px;padding:8px 14px}
+  .two{grid-template-columns:1fr}
+  #paper{max-width:300px;margin:0 auto}
+  .pool{gap:6px;padding:8px}
+  .pool .scard{flex:1 1 28%;min-height:60px;font-size:17px}
+  .bin{min-height:120px}
+  .opts{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<header><div class="head-in">
+  <div class="titles"><h1>어게인 실험과학 수학학원</h1><div class="sub">감염병은 어떻게 옮고, 어떤 습관이 막아 줄까?</div></div>
+  <button class="bbtn orange share" id="share">공유하기</button>
+</div></header>
+
+<nav>
+  <button class="tab on" data-t="0">UV 플래시<span class="star">★</span></button>
+  <button class="tab" data-t="1">침방울 거리<span class="star">★</span></button>
+  <button class="tab" data-t="2">감염 경로 짝<span class="star">★</span></button>
+  <button class="tab" data-t="3">습관 퀴즈<span class="star">★</span></button>
+</nav>
+
+<main>
+<!-- 1 UV 플래시 -->
+<section class="panel on">
+  <div class="msg" id="m0">불 꺼진 교실이에요. 그림 위를 손가락으로 문질러 UV 플래시를 비춰 보세요. 형광 파우더('바이러스' 대신)는 어디에 묻어 있을까요?</div>
+  <svg class="stage" id="room" viewBox="0 0 640 400" role="img" aria-label="불 꺼진 교실의 얼굴, 두 손, 책상, 연필, 문 손잡이">
+    <defs>
+      <radialGradient id="beamG"><stop offset=".55" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+      <mask id="lamp" maskUnits="userSpaceOnUse" x="0" y="0" width="640" height="400"><rect width="640" height="400" fill="#000"/><circle id="beamM" cx="-200" cy="-200" r="80" fill="url(#beamG)"/></mask>
+      <filter id="blur" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="2.2"/></filter>
+    </defs>
+    <rect width="640" height="300" fill="#1b2442"/><rect y="300" width="640" height="100" fill="#121931"/>
+    <!-- 문 -->
+    <rect x="512" y="60" width="104" height="240" rx="4" fill="#232e50" stroke="#34406a" stroke-width="4"/>
+    <circle cx="534" cy="196" r="10" fill="#3a4672"/>
+    <!-- 얼굴 -->
+    <ellipse cx="112" cy="118" rx="54" ry="62" fill="#2b3558"/>
+    <circle cx="92" cy="104" r="5" fill="#141b33"/><circle cx="132" cy="104" r="5" fill="#141b33"/>
+    <path d="M112,112 l-7,18 h12" fill="none" stroke="#141b33" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M96,148 q16,10 32,0" fill="none" stroke="#141b33" stroke-width="4" stroke-linecap="round"/>
+    <!-- 책상 · 연필 -->
+    <rect x="170" y="230" width="330" height="26" rx="6" fill="#2a3355"/>
+    <rect x="190" y="256" width="16" height="96" fill="#222a49"/><rect x="464" y="256" width="16" height="96" fill="#222a49"/>
+    <g transform="rotate(-8 460 222)"><rect x="410" y="216" width="82" height="12" rx="3" fill="#3a4466"/><path d="M492,216 l16,6 l-16,6z" fill="#4a5478"/></g>
+    <g id="hands"></g>
+    <text x="250" y="249" font-size="17" fill="#55628d" text-anchor="middle">왼손</text>
+    <text x="356" y="249" font-size="17" fill="#55628d" text-anchor="middle">오른손</text>
+    <!-- 빛 -->
+    <circle id="beamV" cx="-200" cy="-200" r="80" fill="#8f6bff" opacity=".22" pointer-events="none"/>
+    <g id="dots" mask="url(#lamp)" pointer-events="none"></g>
+    <g id="bubL" class="bubbles"></g><g id="bubR" class="bubbles"></g>
+  </svg>
+  <div class="chips" id="chips"></div>
+  <div class="row wash" id="wash">
+    <button class="bbtn" id="wL">왼손 · 물로만 5초</button>
+    <button class="bbtn orange" id="wR">오른손 · 비누로 30초</button>
+  </div>
+  <div class="meter" id="cnt" style="display:none">빛나는 점 &nbsp;왼손 <div class="scr" id="nL">-</div> 오른손 <div class="scr" id="nR">-</div></div>
+  <div class="row"><button class="bbtn white" id="reset1">다시 하기</button></div>
+  <div class="card" id="c0">손은 병원체를 옮겨요! 비누로 30초 씻은 손은 물로만 헹군 손보다 빛나는 곳이 적어요. 비누 손 씻기가 접촉 감염을 막아요.</div>
+</section>
+
+<!-- 2 기침 침방울 거리 -->
+<section class="panel">
+  <div class="msg" id="m1">스탠드 거리를 고르고 '기침 한 번!'을 눌러 보세요. 물이 닿으면 색이 변하는 종이에 동그라미가 몇 개 생길까요?</div>
+  <div class="range">스탠드 거리 <input type="range" id="dist" min="1" max="5" step="1" value="1" aria-label="스탠드 거리"><b id="dv">1m</b></div>
+  <svg class="stage" id="cough" viewBox="0 0 640 300" role="img" aria-label="기침한 침방울이 스탠드의 종이까지 날아가는 옆모습">
+    <rect width="640" height="300" fill="#fbfcfe"/>
+    <rect y="250" width="640" height="50" fill="#eef2f7"/>
+    <g id="ruler"></g>
+    <g transform="translate(46,250)">
+      <circle cy="-128" r="22" fill="#14305c"/><rect x="-24" y="-104" width="48" height="66" rx="18" fill="#14305c"/>
+      <path d="M-11,-42V0M11,-42V0" stroke="#14305c" stroke-width="13" stroke-linecap="round"/>
+    </g>
+    <g id="stand"><rect x="-3" y="96" width="6" height="154" fill="#64748a"/><rect x="-26" y="244" width="52" height="8" rx="4" fill="#64748a"/><rect x="-6" y="92" width="10" height="76" rx="2" fill="#f2d43a" stroke="#c8a91a" stroke-width="2"/></g>
+    <g id="drops" fill="#3b82f6"></g>
+    <text id="ach" x="96" y="96" font-size="30" fill="#d2660c" opacity="0">콜록!</text>
+  </svg>
+  <div class="row"><button class="bbtn orange" id="cbtn">기침 한 번!</button></div>
+  <div class="two">
+    <svg id="paper" viewBox="0 0 240 170" role="img" aria-label="스탠드에 붙인 종이 앞모습"></svg>
+    <div class="tbl" id="tbl"></div>
+  </div>
+  <div class="card" id="c1">침방울은 무거워서 대부분 기침한 사람 가까이에 떨어져요! 사람 사이를 2m쯤 띄우는 거리 두기와 마스크 쓰기가 비말 감염을 막아요.</div>
+</section>
+
+<!-- 3 감염 경로 짝 맞추기 -->
+<section class="panel">
+  <div class="msg" id="m2">감염병 카드를 끌어서 병원체가 들어오는 길에 놓아 보세요.</div>
+  <div class="pool" id="pool"></div>
+  <div class="bins">
+    <div class="bin" data-b="0">공기 감염<small>공기 속 병원체를 들이마셔요</small><div class="got"></div></div>
+    <div class="bin" data-b="1">물 감염<small>병원체가 섞인 물을 마셔요</small><div class="got"></div></div>
+    <div class="bin" data-b="2">침 감염<small>남의 침이 묻은 컵 · 숟가락</small><div class="got"></div></div>
+    <div class="bin" data-b="3">비말 감염<small>기침 · 재채기 침방울</small><div class="got"></div></div>
+  </div>
+  <div class="row"><button class="bbtn white" id="reset3">다시 하기</button></div>
+  <div class="card" id="c2">병원체는 손 · 공기 · 물 · 침 · 침방울로 들어와요!</div>
+</section>
+
+<!-- 4 습관 퀴즈 -->
+<section class="panel">
+  <div class="quiz">
+    <div class="score"><span id="qn">1</span> / 7 번째 문제 · 점수 <b id="sc">0</b>점</div>
+    <div class="q" id="q"></div>
+    <div class="opts" id="opts"></div>
+    <div class="fb" id="qfb"></div>
+    <div class="row"><button class="bbtn" id="next" style="display:none">다음 문제</button></div>
+  </div>
+  <div class="card" id="c3">미션 해결! 생활 습관이 병원체의 길을 막아요
+    <div class="sum">
+      <b>손</b><span>비누로 30초 손 씻기</span>
+      <b>침방울</b><span>마스크 · 2m 거리 두기 · 옷소매로 가리기</span>
+      <b>공기</b><span>창문 열어 환기</span>
+      <b>물 · 침</b><span>끓인 물 · 내 컵과 내 숟가락</span>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>어게인 실험과학 수학학원 · 교육문의 010.2976.5774</footer>
+<div class="toast" id="toast">주소가 복사됐어요</div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const NS='http://www.w3.org/2000/svg';
+const el=(n,a,p)=>{ const e=document.createElementNS(NS,n); for(const k in a) e.setAttribute(k,a[k]); if(p) p.appendChild(e); return e; };
+const R=(a,b)=>a+Math.random()*(b-a);
+
+/* ---------- 소리 ---------- */
+let ac;
+function audio(){ if(!ac){const A=window.AudioContext||window.webkitAudioContext; if(A) ac=new A();} if(ac&&ac.state==='suspended') ac.resume(); return ac; }
+function tone(freq,dur,vol,type='sine',when=0,freqEnd,attack=0.03){
+  const a=audio(); if(!a) return;
+  const o=a.createOscillator(), g=a.createGain(), t=a.currentTime+when;
+  o.type=type; o.frequency.setValueAtTime(freq,t); if(freqEnd) o.frequency.exponentialRampToValueAtTime(freqEnd,t+dur);
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(vol,t+attack); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t+dur+0.05);
+}
+function noise(dur,vol,freq){ // 기침 · 물소리
+  const a=audio(); if(!a) return;
+  const b=a.createBuffer(1,a.sampleRate*dur,a.sampleRate), d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+  const s=a.createBufferSource(), f=a.createBiquadFilter(), g=a.createGain(), t=a.currentTime;
+  s.buffer=b; f.type='bandpass'; f.frequency.value=freq; f.Q.value=.8;
+  g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  s.connect(f).connect(g).connect(a.destination); s.start(t);
+}
+const cheer=()=>[523,659,784,1047].forEach((f,i)=>tone(f,.3,.2,'triangle',i*.11));
+const boo=()=>tone(220,.35,.15,'sawtooth',0,140);
+
+/* ---------- 보상 ---------- */
+function confetti(){
+  const cols=['#14305c','#ff8a2a','#8cc63f','#ffd23f','#5c8f1f'];
+  for(let i=0;i<60;i++){ const d=document.createElement('div'); d.className='conf';
+    d.style.left=Math.random()*100+'vw'; d.style.background=cols[i%5]; d.style.borderRadius=i%2?'50%':'3px';
+    d.style.animationDuration=1.4+Math.random()*1.6+'s'; d.style.animationDelay=Math.random()*.4+'s';
+    document.body.appendChild(d); setTimeout(()=>d.remove(),3600); }
+}
+function sparkle(node){
+  const r=node.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
+  for(let i=0;i<8;i++){ const s=document.createElement('div'); s.className='spark'; s.textContent='✦';
+    const a=i/8*6.28; s.style.left=cx-10+'px'; s.style.top=cy-14+'px';
+    s.style.setProperty('--dx',Math.cos(a)*60+'px'); s.style.setProperty('--dy',Math.sin(a)*60+'px');
+    document.body.appendChild(s); setTimeout(()=>s.remove(),900); }
+}
+const tabs=$$('.tab'), panels=$$('.panel');
+function done(i,node){ const c=$('#c'+i); if(c) c.classList.add('on'); if(tabs[i].classList.contains('done')) return; tabs[i].classList.add('done'); if(node) sparkle(node); confetti(); cheer(); }
+
+/* ---------- 탭 ---------- */
+tabs.forEach(b=>b.onclick=()=>{ const cur=+b.dataset.t; tabs.forEach((t,i)=>t.classList.toggle('on',i===cur)); panels.forEach((p,i)=>p.classList.toggle('on',i===cur)); audio(); });
+
+/* ---------- 공유 (링크 복사) ---------- */
+$('#share').onclick=async()=>{
+  const url=location.href;
+  try{ await navigator.clipboard.writeText(url); }
+  catch(e){ const t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); }
+  const t=$('#toast'); t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),1800);
+};
+
+/* ---------- 1 UV 플래시로 비추기 ---------- */
+// 손 그림 : cx 가운데, s=1 왼손(엄지 오른쪽) / -1 오른손(엄지 왼쪽)
+function handPath(cx,s){
+  const f=[[-27,44],[-12,54],[3,52],[18,40]].map(([x,h])=>`<rect x="${cx+x*s-(s<0?12:0)}" y="${156-h}" width="12" height="${h+10}" rx="6"/>`).join('');
+  return `<g fill="#30406a">${f}<rect x="${cx-30}" y="150" width="60" height="66" rx="20"/>
+    <rect x="${cx+(s>0?22:-40)}" y="164" width="18" height="40" rx="9" transform="rotate(${s*35} ${cx+s*30} 204)"/></g>`;
+}
+$('#hands').innerHTML=handPath(250,1)+handPath(356,-1);
+const SPOTS=[
+  {n:'왼손',x:250,y:170,rx:34,ry:50,k:40,hand:'L'},
+  {n:'오른손',x:356,y:170,rx:34,ry:50,k:40,hand:'R'},
+  {n:'얼굴(코 · 입 둘레)',x:112,y:136,rx:26,ry:20,k:14},
+  {n:'책상',x:300,y:238,rx:60,ry:5,k:12},
+  {n:'연필',x:455,y:220,rx:38,ry:5,k:8},
+  {n:'문 손잡이',x:534,y:196,rx:11,ry:11,k:10}
+];
+const room=$('#room'), dotsG=$('#dots');
+let found, washed, dots;
+function inHand(x,y,cx){ return Math.abs(x-cx)<29&&y>104&&y<214; }
+function build1(){
+  found=new Set(); washed={L:0,R:0}; dots=[]; dotsG.innerHTML='';
+  SPOTS.forEach((s,i)=>{
+    let made=0, guard=0;
+    while(made<s.k&&guard++<500){
+      const a=Math.random()*6.283, r=Math.sqrt(Math.random()), x=s.x+Math.cos(a)*s.rx*r, y=s.y+Math.sin(a)*s.ry*r;
+      if(s.hand&&!inHand(x,y,s.x)) continue;
+      const nail=s.hand&&y<128; // 손끝 · 손톱 둘레는 잘 안 씻김
+      const c=el('circle',{cx:x,cy:y,r:R(2.2,4.2),fill:'#7dfbff',filter:'url(#blur)'},dotsG);
+      dots.push({c,hand:s.hand,keep:Math.min(1,Math.random()+(nail?.35:0))}); made++;
+    }
+  });
+  $('#chips').innerHTML=SPOTS.map((s,i)=>`<span class="chip" data-i="${i}">${s.n} ?</span>`).join('');
+  $('#wash').classList.remove('on'); $('#cnt').style.display='none'; $('#c0').classList.remove('on');
+  $('#wL').disabled=$('#wR').disabled=false;
+  $('#m0').textContent="불 꺼진 교실이에요. 그림 위를 손가락으로 문질러 UV 플래시를 비춰 보세요. 형광 파우더('바이러스' 대신)는 어디에 묻어 있을까요?";
+}
+function beam(e){
+  const p=room.createSVGPoint(); p.x=e.clientX; p.y=e.clientY;
+  const q=p.matrixTransform(room.getScreenCTM().inverse());
+  ['#beamM','#beamV'].forEach(id=>{ $(id).setAttribute('cx',q.x); $(id).setAttribute('cy',q.y); });
+  SPOTS.forEach((s,i)=>{
+    if(found.has(i)) return;
+    const dx=(q.x-s.x)/(s.rx+40), dy=(q.y-s.y)/(s.ry+40);
+    if(dx*dx+dy*dy<1){ found.add(i); tone(880,.12,.12,'triangle');
+      const c=$(`.chip[data-i="${i}"]`); c.classList.add('on'); c.textContent=s.n+' ○';
+      $('#m0').textContent=`${s.n}에도 '바이러스'가 빛나요! (${found.size} / ${SPOTS.length})`;
+      if(found.size===SPOTS.length){
+        $('#m0').textContent='하이파이브 한 번에 손 말고 얼굴, 책상, 연필, 문 손잡이까지 퍼졌어요! 이제 두 손을 씻어 볼까요?';
+        $('#wash').classList.add('on');
+      }
+    }
+  });
+}
+room.addEventListener('pointerdown',e=>{ e.preventDefault(); audio(); beam(e); });
+room.addEventListener('pointermove',beam);
+function wash(h){
+  if(washed[h]) return; washed[h]=1; $('#w'+h).disabled=true;
+  const soap=h==='R', cx=soap?356:250, g=$('#bub'+h); g.innerHTML='';
+  for(let i=0;i<14;i++) el('circle',{cx:cx+R(-30,30),cy:R(110,210),r:R(4,10),fill:soap?'#ffffff':'#7fb4ff',opacity:.8},g);
+  g.classList.remove('go'); void g.getBBox(); g.classList.add('go');
+  noise(soap?1.3:.6,.25,soap?2500:900);
+  const cut=soap?.9:.45; // 물로만 : 약 절반 남음 · 비누 : 손끝 둘레만 조금 남음
+  setTimeout(()=>{
+    dots.filter(d=>d.hand===h&&d.keep<cut&&d.c.isConnected).forEach(d=>d.c.remove());
+    const n=k=>dots.filter(d=>d.hand===k&&d.c.isConnected).length;
+    $('#m0').textContent=soap?'비누로 30초 씻었어요. UV 플래시로 오른손을 다시 비춰 보세요.':'물로만 5초 헹궜어요. UV 플래시로 왼손을 다시 비춰 보세요.';
+    if(washed.L&&washed.R){
+      $('#cnt').style.display=''; $('#nL').textContent=n('L'); $('#nR').textContent=n('R');
+      $('#m0').textContent=`두 손을 다시 비춰 비교해 보세요. 물로만 헹군 왼손 ${n('L')}개, 비누로 씻은 오른손 ${n('R')}개! 손톱 둘레와 손가락 사이도 비춰 보세요.`;
+      done(0,$('#cnt'));
+    }
+  },900);
+}
+$('#wL').onclick=()=>wash('L'); $('#wR').onclick=()=>wash('R');
+$('#reset1').onclick=build1;
+build1();
+
+/* ---------- 2 기침 침방울 거리 ---------- */
+const X0=70, PX=110, HITS=[[22,27],[6,9],[1,3],[0,2],[0,1]]; // 1m 가장 많음 · 2m 크게 줄어듦 · 3~5m 거의 없음
+const word=n=>n>=10?'많다':n>0?'적다':'없다';
+const rec=[]; let busy=false;
+const ruler=$('#ruler');
+for(let m=0;m<=5;m++){ el('rect',{x:X0+m*PX-1.5,y:250,width:3,height:14,fill:'#64748a'},ruler);
+  el('text',{x:X0+m*PX,y:286,'font-size':20,fill:'#64748a','text-anchor':'middle'},ruler).textContent=m?m+'m':'시작점'; }
+const distI=$('#dist');
+const D=()=>+distI.value;
+function placeStand(){ $('#stand').setAttribute('transform',`translate(${X0+D()*PX},0)`); $('#dv').textContent=D()+'m'; drawPaper(rec[D()-1]); }
+distI.oninput=()=>{ if(busy){ return; } placeStand(); $('#m1').textContent=`스탠드를 ${D()}m에 두었어요. 새 종이를 붙이고 같은 세기로 기침해 보세요.`; };
+function drawPaper(r){
+  const p=$('#paper'); p.innerHTML='';
+  el('rect',{x:20,y:14,width:200,height:130,rx:6,fill:'#f7dc45',stroke:'#c8a91a','stroke-width':3},p);
+  el('text',{x:120,y:162,'font-size':15,fill:'#64748a','text-anchor':'middle','font-family':'Jua'},p).textContent=`${D()}m 종이 ${r?'· 동그라미 '+r.n+'개':''}`;
+  if(!r) return;
+  r.pts.forEach(([x,y,s])=>{ el('circle',{cx:x,cy:y,r:s,fill:'#2f5fd0'},p); el('circle',{cx:x,cy:y,r:s+4,fill:'none',stroke:'#111','stroke-width':1.6},p); });
+}
+function drawTbl(){
+  $('#tbl').innerHTML='<div class="h">거리</div>'+[1,2,3,4,5].map(m=>`<div class="h">${m}m</div>`).join('')+
+    '<div>동그라미 수</div>'+[0,1,2,3,4].map(i=>`<div class="v ${rec[i]?'ok':''}">${rec[i]?rec[i].n:'-'}</div>`).join('')+
+    '<div>침방울</div>'+[0,1,2,3,4].map(i=>`<div class="v ${rec[i]?'ok':''}">${rec[i]?word(rec[i].n):'-'}</div>`).join('');
+}
+$('#cbtn').onclick=()=>{
+  if(busy) return; busy=true; $('#cbtn').disabled=true; distI.disabled=true;
+  const d=D(), [lo,hi]=HITS[d-1], n=Math.floor(R(lo,hi+1)), sx=X0+d*PX, g=$('#drops'); g.innerHTML='';
+  noise(.35,.5,600); const a=$('#ach'); a.setAttribute('opacity',1); setTimeout(()=>a.setAttribute('opacity',0),600);
+  const list=[];
+  for(let i=0;i<n;i++) list.push({hit:1,ex:sx-6,ey:R(96,164)});
+  for(let i=0;i<34;i++){ const m=Math.min(d,2.2)*Math.pow(Math.random(),1.6)+.15; list.push({hit:0,ex:Math.min(X0+m*PX,sx-10),ey:250}); }
+  const nodes=list.map(q=>({...q,c:el('circle',{cx:64,cy:122,r:q.hit?3.4:R(2,3.4)},g),t:R(0,.15)}));
+  const t0=performance.now();
+  (function step(now){
+    const T=(now-t0)/700; let live=false;
+    nodes.forEach(q=>{ const t=Math.max(0,Math.min(1,(T-q.t)/(.85)));
+      if(t<1) live=true;
+      const x=64+(q.ex-64)*t, y=q.hit?122+(q.ey-122)*t:122-26*Math.sin(t*Math.PI*.6)+(q.ey-122)*t*t;
+      q.c.setAttribute('cx',x); q.c.setAttribute('cy',y); });
+    if(live) return requestAnimationFrame(step);
+    const pts=[]; for(let i=0;i<n;i++) pts.push([R(34,206),R(28,130),R(1.5,4)]);
+    rec[d-1]={n,pts}; drawPaper(rec[d-1]); drawTbl();
+    busy=false; $('#cbtn').disabled=false; distI.disabled=false;
+    const cnt=rec.filter(Boolean).length;
+    $('#m1').textContent=(n>=10?`${d}m 종이에 동그라미가 ${n}개! 가까이에는 침방울이 많이 닿아요.`:n>0?`${d}m 종이에는 동그라미가 ${n}개뿐이에요. 침방울 대부분이 종이 앞에 떨어졌어요.`:`${d}m 종이에는 동그라미가 하나도 없어요! 침방울은 모두 종이 앞에 떨어졌어요.`)
+      +(cnt<5?` 다른 거리도 해 보세요. (${cnt} / 5)`:'');
+    if(cnt===5) done(1,$('#tbl'));
+  })(t0);
+};
+placeStand(); drawTbl();
+
+/* ---------- 끌어 놓기 ---------- */
+function dragify(root,sel,slots,onDrop){
+  let d=null;
+  const slotAt=(x,y)=>slots().find(s=>{ const r=s.getBoundingClientRect(); return x>r.left&&x<r.right&&y>r.top-20&&y<r.bottom+20; });
+  root.addEventListener('pointerdown',e=>{
+    const c=e.target.closest(sel); if(!c) return;
+    e.preventDefault(); audio(); c.setPointerCapture(e.pointerId); d={c,x:e.clientX,y:e.clientY,moved:false};
+  });
+  root.addEventListener('pointermove',e=>{
+    if(!d) return; const dx=e.clientX-d.x, dy=e.clientY-d.y;
+    if(!d.moved&&Math.hypot(dx,dy)<10) return;
+    d.moved=true; d.c.classList.add('drag'); d.c.style.transform=`translate(${dx}px,${dy}px)`;
+    const s=slotAt(e.clientX,e.clientY); slots().forEach(x=>x.classList.toggle('hot',x===s));
+  });
+  const up=e=>{
+    if(!d) return; const {c,moved}=d; d=null;
+    c.classList.remove('drag'); c.style.transform=''; slots().forEach(x=>x.classList.remove('hot'));
+    if(moved) onDrop(c,slotAt(e.clientX,e.clientY));
+  };
+  root.addEventListener('pointerup',up); root.addEventListener('pointercancel',up);
+}
+
+/* ---------- 3 감염 경로 짝 맞추기 ---------- */
+const WAY=['공기 속에 떠다니는 병원체를 들이마셔 옮아요','병원체가 섞인 물을 마셔 옮아요','다른 사람의 침이 묻은 컵이나 숟가락을 함께 써서 옮아요','기침이나 재채기의 침방울로 잘 옮아요'];
+const DIS=[['결핵',[0]],['홍역',[0]],['수두',[0]],['콜레라',[1]],['장티푸스',[1]],['이질',[1]],['독감',[2,3]],['볼거리',[2]],['코로나19',[3]],['백일해',[3]]];
+const pool=$('#pool'), bins=$$('.bin');
+const eun=n=>{ const c=n.charCodeAt(n.length-1)-0xAC00; return n+(c>=0&&c<11172&&c%28?'은':'는'); };
+function reset3(){
+  $('#c2').classList.remove('on'); bins.forEach(b=>b.querySelector('.got').innerHTML='');
+  pool.innerHTML=DIS.map((x,i)=>i).sort(()=>Math.random()-.5).map(i=>`<div class="scard" data-i="${i}">${DIS[i][0]}</div>`).join('');
+  $('#m2').textContent='감염병 카드를 끌어서 병원체가 들어오는 길에 놓아 보세요.';
+}
+dragify(panels[2],'.scard:not(.set)',()=>bins,(c,s)=>{
+  if(!s) return;
+  const [n,ok]=DIS[+c.dataset.i], b=+s.dataset.b;
+  if(!ok.includes(b)){ boo(); c.classList.add('back'); setTimeout(()=>c.classList.remove('back'),400); $('#m2').textContent=`${eun(n)} ${WAY[ok[0]]}. 다시 생각해 보세요.`; return; }
+  s.querySelector('.got').appendChild(c); c.classList.add('set'); tone(520,.1,.12,'triangle');
+  $('#m2').textContent=n==='독감'?'맞아요! 독감은 침으로도, 기침 침방울로도 옮아요.':`맞아요! ${eun(n)} ${WAY[b]}.`;
+  if(!pool.children.length) done(2,s);
+});
+$('#reset3').onclick=reset3;
+reset3();
+
+/* ---------- 4 습관 퀴즈 ---------- */
+const PATH=[['손','접촉 감염'],['침방울','비말 감염'],['공기','공기 감염'],['물','물 감염'],['침','침 감염']];
+$('#opts').innerHTML=PATH.map(([a,b],i)=>`<button data-a="${i}">${a}<small>${b}</small></button>`).join('');
+const QS=[
+ ['비누로 30초 손 씻기',0,'비누 손 씻기는 손에 묻은 병원체를 씻어 내 접촉 감염을 막아요.'],
+ ['기침이 나올 때 옷소매로 입과 코 가리기',1,'옷소매가 침방울이 친구에게 튀지 않게 막아요.'],
+ ['창문을 열어 환기하기',2,'결핵 · 홍역 · 수두처럼 공기로 옮는 병원체를 밖으로 내보내요.'],
+ ['사람 사이를 2m쯤 띄우는 거리 두기',1,'침방울은 무거워서 대부분 가까이에 떨어지니, 2m쯤 떨어지면 덜 닿아요.'],
+ ['끓인 물 마시기',3,'콜레라 · 장티푸스 · 이질처럼 병원체가 섞인 물을 마셔 옮는 길을 막아요.'],
+ ['내 컵과 내 숟가락 쓰기',4,'다른 사람의 침이 묻은 컵이나 숟가락을 함께 쓰지 않으면 침 감염을 막아요.'],
+ ['마스크 쓰기',1,'마스크는 침방울이 다른 사람의 코와 입에 닿지 않게 막아요.']
+];
+let qi=0, score=0;
+const ob=()=>$$('#opts button');
+function showQ(){
+  $('#opts').style.display=''; $('#qn').textContent=qi+1; $('#sc').textContent=score;
+  $('#q').innerHTML=`<div><small>이 습관은 어떤 길을 막을까요?</small>${QS[qi][0]}</div>`;
+  $('#qfb').textContent=''; $('#qfb').className='fb'; $('#next').style.display='none';
+  ob().forEach(b=>{ b.disabled=false; b.className=''; });
+}
+ob().forEach(b=>b.onclick=()=>{
+  const [,ans,why]=QS[qi], ok=+b.dataset.a===ans; ob().forEach(x=>x.disabled=true);
+  ob()[ans].classList.add('right'); if(!ok) b.classList.add('wrong');
+  if(ok){ score++; cheer(); sparkle(b); } else boo();
+  $('#sc').textContent=score; $('#qfb').className='fb '+(ok?'good':'bad');
+  $('#qfb').textContent=(ok?'딩동댕! ':`아쉬워요. 정답은 '${PATH[ans][0]}'이에요. `)+why;
+  $('#next').textContent=qi<QS.length-1?'다음 문제':'결과 보기'; $('#next').style.display='';
+});
+$('#next').onclick=()=>{
+  if(qi===QS.length){ qi=0; score=0; showQ(); return; }
+  if(++qi<QS.length){ showQ(); return; }
+  $('#q').textContent=`${QS.length}문제 중 ${score}문제를 맞혔어요!`; $('#opts').style.display='none'; $('#qfb').className='fb good';
+  $('#qfb').textContent=score===QS.length?'완벽해요! 병원체가 들어오는 길을 모두 막았어요.':score>=4?'잘했어요! 틀린 문제는 앞의 활동으로 다시 확인해 보세요.':'괜찮아요. 앞의 활동을 다시 해 보고 또 도전해요!';
+  $('#next').textContent='다시 하기'; $('#c3').classList.add('on'); if(score>=5) done(3,$('#q'));
+};
+showQ();
+</script>
+</body>
+</html>
